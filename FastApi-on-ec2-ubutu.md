@@ -28,7 +28,7 @@ Add the following configuration to the file:
 ```nginx
 server {
     listen 80;
-    server_name 204.236.222.95; # Replace with your server's public IP address or domain name
+    server_name 0.0.0.0; # Replace with your server's public IP address or domain name
 
     location / {
         proxy_pass http://127.0.0.1:8000; # Replace with your FastAPI server's internal IP and port if different
