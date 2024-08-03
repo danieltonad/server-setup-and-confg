@@ -81,8 +81,12 @@ Start Uvicorn Server
 uvicorn <main_file>:<app> 
 ```
 
-## Conclusion
-
-You have now set up FastAPI on an EC2 instance using Nginx as a reverse proxy. Your FastAPI application should be accessible via the public IP address or domain name specified in the Nginx configuration.
+## Extra Info
+You can use `screen` to keep your application running even after your terminate your ssh connection
+```sh
+    screen -S <screen_name> #new screen
+    #ctrl + A then D to detach screen
+    screen -r <screen_name> #resume screen
+```
 
 ---
