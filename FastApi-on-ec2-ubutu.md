@@ -1,25 +1,88 @@
-provided you've ssh acccess to your server
 
-<!-- Update Apt and install required pkg -->
+# Setting Up FastAPI on an EC2 Instance
+
+## Prerequisites
+- SSH access to your server
+
+## Steps
+
+### 1. Update APT and Install Required Packages
+
+First, update the package lists and install Python 3.12 and Nginx:
+
+```sh
 sudo apt-get update
-sudo apt install python3.12-venv nginx -y 
+sudo apt install python3.12-venv nginx -y
+```
 
-<!-- configure nginx server  -->
+### 2. Configure Nginx Server
+
+Next, configure Nginx to serve your FastAPI application. Open the Nginx configuration file for editing:
+
+```sh
 sudo vim /etc/nginx/sites-enabled/fastapi_nginx
+```
 
-<!--config template -->
-server{ 
-	listen 80;
-	server_name 204.236.222.95;
-        location / {
-                proxy_pass [SEREVR_PUBLIC_IP];
-		        proxy_set_header Host $host;
-       		    proxy_set_header X-Real-IP $remote_addr;
-        	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        	    proxy_set_header X-Forwarded-Proto $scheme;
-        }
+Add the following configuration to the file:
+
+```nginx
+server {
+    listen 80;
+    server_name 204.236.222.95; # Replace with your server's public IP address or domain name
+
+    location / {
+        proxy_pass http://127.0.0.1:8000; # Replace with your FastAPI server's internal IP and port if different
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }
+```
 
+### 3. Restart Nginx Service
 
-<!-- restart ngix service -->
+Finally, restart the Nginx service to apply the changes:
+
+```sh
 sudo service nginx restart
+```
+
+### 4. Clone FastApi Project 
+
+Clone your project 
+
+```sh
+git clone <project_url>
+cd <project_path>
+```
+
+### 4. Setting Up Environment and Installing Dependecies
+
+Setup environment and activate
+
+```sh
+python3 -m venv env
+source ./env/bin/activate
+```
+
+Install requirements
+
+```sh
+pip3 install -r requirements.txt
+```
+
+
+### 4. Start Uvicorn Server
+
+Start Uvicorn Server
+
+```sh
+uvicorn <main_file>:<app> 
+```
+
+## Conclusion
+
+You have now set up FastAPI on an EC2 instance using Nginx as a reverse proxy. Your FastAPI application should be accessible via the public IP address or domain name specified in the Nginx configuration.
+
+---
